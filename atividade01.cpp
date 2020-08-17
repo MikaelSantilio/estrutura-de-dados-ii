@@ -37,25 +37,69 @@ class Tree {
             return this->root;
         }
 		
-		void all(){ 
+		void allPreorder(){ 
 		    //RAIZ -ESQ-DIR
             if (this->root != 0) {
                 cout << this->root->key;
                 cout << "<";
-                all(this->root->left);
-                all(this->root->right);
+                allPreorder(this->root->left);
+                allPreorder(this->root->right);
                 cout << ">";
             }
 		}
 
-        void all(Node *r){ 
+        void allPreorder(Node *r){ 
 		    //RAIZ -ESQ-DIR
             if (r != 0) {
                 cout << r->key;
                 cout << "<";
-                all(r->left);
-                all(r->right);
+                allPreorder(r->left);
+                allPreorder(r->right);
                 cout << ">";
+            }
+		}
+
+        void allInorder(){ 
+		    // ESQ-RAIZ-DIR
+            if (this->root != 0) {
+                allInorder(this->root->left);
+                cout << "<";
+                cout << this->root->key;
+                allInorder(this->root->right);
+                cout << ">";
+            }
+		}
+
+        void allInorder(Node *r){ 
+		    // ESQ-RAIZ-DIR
+            if (r != 0) {
+                allInorder(r->left);
+                cout << "<";
+                cout << r->key;
+                allInorder(r->right);
+                cout << ">";
+            }
+		}
+
+        void allPostorder(){ 
+		    // ESQ-DIR-RAIZ
+            if (this->root != 0) {
+                allPostorder(this->root->left);
+                cout << "<";
+                allPostorder(this->root->right);
+                cout << ">";
+                cout << this->root->key;
+            }
+		}
+
+        void allPostorder(Node *r){ 
+		    // ESQ-DIR-RAIZ
+            if (r != 0) {
+                allPostorder(r->left);
+                cout << "<";
+                allPostorder(r->right);
+                cout << ">";
+                cout << r->key;
             }
 		}
 
@@ -88,13 +132,22 @@ int main(){
 	Node *b= new Node('b');
 	Node *c= new Node('c');
 	Node *a= new Node('a');
-	Tree *tree = new Tree(b);
+	Node *d= new Node('d');
+	Node *e= new Node('e');
+	Tree *tree = new Tree(a);
 
+    tree->add(b);
     tree->add(c);
-    tree->add(a);
+    tree->add(d);
+    tree->add(e);
     Node *root = tree->getRoot();
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
-    tree->all();
+    tree->allPreorder();
+    cout << "\n";
+    tree->allInorder();
+    cout << "\n";
+    tree->allPostorder();
+    cout << "\n";
 }
