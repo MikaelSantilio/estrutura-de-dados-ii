@@ -1,4 +1,5 @@
 #include <iostream>
+#include <queue>
 using namespace std;
 
 class Node {
@@ -147,6 +148,30 @@ class Tree {
             }
 
             return r;
+        }
+        /*function to insert element in binary tree */
+        void insert(Node* n) { 
+            queue<Node*> q; 
+            q.push(root); 
+        
+            // Do level order traversal until we find 
+            // an empty place.  
+            while (!q.empty()) { 
+                Node* temp = q.front(); 
+                q.pop(); 
+        
+                if (!temp->left) { 
+                    temp->left = n; 
+                    break; 
+                } else
+                    q.push(temp->left); 
+        
+                if (!temp->right) { 
+                    temp->right = n; 
+                    break; 
+                } else
+                    q.push(temp->right); 
+            } 
         } 
 };
 
@@ -157,6 +182,7 @@ int main(){
 	Node *d= new Node('d');
 	Node *e= new Node('e');
 	Node *f= new Node('f');
+	Node *g= new Node('g');
 	Tree *tree = new Tree(a);
 
     // tree->add(a);
@@ -172,6 +198,7 @@ int main(){
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
+    tree->insert(g);
     tree->allPreorder();
     cout << "\n";
     tree->allInorder();
