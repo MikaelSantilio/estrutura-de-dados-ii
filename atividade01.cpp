@@ -183,6 +183,7 @@ int main(){
 	Node *e= new Node('e');
 	Node *f= new Node('f');
 	Node *g= new Node('g');
+	Node *h= new Node('h');
 	Tree *tree = new Tree(a);
 
     // tree->add(a);
@@ -190,15 +191,21 @@ int main(){
     // tree->add(d);
     // tree->add(e);
     Node *root = tree->getRoot();
-    root->left =b; 
-    root->left->right = d; 
-    root->right = c; 
-    root->right->left = e; 
-    root->right->right = f; 
+    // root->left =b; 
+    // root->left->right = d; 
+    // root->right = c; 
+    // root->right->left = e; 
+    // root->right->right = f; 
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
-    tree->insert(g);
+    tree->insert(b); 
+    tree->insert(c); 
+    tree->insert(g); 
+    tree->insert(d); 
+    tree->insert(e); 
+    tree->insert(f); 
+    tree->insert(h); 
     tree->allPreorder();
     cout << "\n";
     tree->allInorder();
