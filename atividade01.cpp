@@ -40,22 +40,30 @@ class Tree {
 		void allPreorder(){ 
 		    //RAIZ -ESQ-DIR
             if (this->root != 0) {
-                cout << this->root->key;
                 cout << "<";
+                cout << this->root->key;
+                // cout << "<";
                 allPreorder(this->root->left);
                 allPreorder(this->root->right);
                 cout << ">";
+                // cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
         void allPreorder(Node *r){ 
 		    //RAIZ -ESQ-DIR
             if (r != 0) {
-                cout << r->key;
                 cout << "<";
+                cout << r->key;
+                // cout << "<";
                 allPreorder(r->left);
                 allPreorder(r->right);
                 cout << ">";
+                // cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
@@ -63,10 +71,14 @@ class Tree {
 		    // ESQ-RAIZ-DIR
             if (this->root != 0) {
                 allInorder(this->root->left);
-                cout << this->root->key;
                 cout << "<";
+                cout << this->root->key;
+                // cout << "<";
                 allInorder(this->root->right);
                 cout << ">";
+                // cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
@@ -74,10 +86,14 @@ class Tree {
 		    // ESQ-RAIZ-DIR
             if (r != 0) {
                 allInorder(r->left);
-                cout << r->key;
                 cout << "<";
+                cout << r->key;
+                // cout << "<";
                 allInorder(r->right);
                 cout << ">";
+                // cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
@@ -86,9 +102,13 @@ class Tree {
             if (this->root != 0) {
                 allPostorder(this->root->left);
                 allPostorder(this->root->right);
-                cout << this->root->key;
                 cout << "<";
+                cout << this->root->key;
+                // cout << "<";
                 cout << ">";
+                // cout << ">";
+            }  else {
+                cout << "<>";
             }
 		}
 
@@ -97,8 +117,10 @@ class Tree {
             if (r != 0) {
                 allPostorder(r->left);
                 allPostorder(r->right);
+                cout << "<";
                 cout << r->key;
                 cout << "<";
+                cout << ">";
                 cout << ">";
             }
 		}
@@ -134,13 +156,19 @@ int main(){
 	Node *a= new Node('a');
 	Node *d= new Node('d');
 	Node *e= new Node('e');
-	Tree *tree = new Tree(c);
+	Node *f= new Node('f');
+	Tree *tree = new Tree(a);
 
-    tree->add(a);
-    tree->add(b);
-    tree->add(d);
-    tree->add(e);
+    // tree->add(a);
+    // tree->add(b);
+    // tree->add(d);
+    // tree->add(e);
     Node *root = tree->getRoot();
+    root->left =b; 
+    root->left->right = d; 
+    root->right = c; 
+    root->right->left = e; 
+    root->right->right = f; 
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
@@ -151,3 +179,31 @@ int main(){
     tree->allPostorder();
     cout << "\n";
 }
+
+// a(b(d())c(e()f()))
+
+// (a(b()(d()()))(c(e()())(f()())))
+
+// b(d())a(e()c(f()))
+
+
+// <a
+//     <b
+//         <null-esq>
+//         <direito-d<esq><dir>
+//         > -- esse fecha o d
+//         > -- esse fecha o b
+//     <c
+//         <e<><>
+//         >
+//         <f<><>
+//         >
+
+//         > -- esse fecha o c
+//         > -- esse fecha o a
+
+
+// <a<<b<<d<>>>><c<<e<>><f<>>>>>>
+// <a<b<><d<><>>><c<e<><>><f<><>>>>
+// <a<b<><d<><>>><c<e<><>><f<><>>>>
+// <a<b<><d<><>>><c<e<><>><f<><>>>>
