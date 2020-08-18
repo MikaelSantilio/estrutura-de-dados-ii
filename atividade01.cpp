@@ -63,8 +63,8 @@ class Tree {
 		    // ESQ-RAIZ-DIR
             if (this->root != 0) {
                 allInorder(this->root->left);
-                cout << "<";
                 cout << this->root->key;
+                cout << "<";
                 allInorder(this->root->right);
                 cout << ">";
             }
@@ -74,8 +74,8 @@ class Tree {
 		    // ESQ-RAIZ-DIR
             if (r != 0) {
                 allInorder(r->left);
-                cout << "<";
                 cout << r->key;
+                cout << "<";
                 allInorder(r->right);
                 cout << ">";
             }
@@ -85,10 +85,10 @@ class Tree {
 		    // ESQ-DIR-RAIZ
             if (this->root != 0) {
                 allPostorder(this->root->left);
-                cout << "<";
                 allPostorder(this->root->right);
-                cout << ">";
                 cout << this->root->key;
+                cout << "<";
+                cout << ">";
             }
 		}
 
@@ -96,10 +96,10 @@ class Tree {
 		    // ESQ-DIR-RAIZ
             if (r != 0) {
                 allPostorder(r->left);
-                cout << "<";
                 allPostorder(r->right);
-                cout << ">";
                 cout << r->key;
+                cout << "<";
+                cout << ">";
             }
 		}
 
@@ -134,10 +134,10 @@ int main(){
 	Node *a= new Node('a');
 	Node *d= new Node('d');
 	Node *e= new Node('e');
-	Tree *tree = new Tree(a);
+	Tree *tree = new Tree(c);
 
+    tree->add(a);
     tree->add(b);
-    tree->add(c);
     tree->add(d);
     tree->add(e);
     Node *root = tree->getRoot();
