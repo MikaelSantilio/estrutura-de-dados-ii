@@ -71,8 +71,8 @@ class Tree {
         void allInorder(){ 
 		    // ESQ-RAIZ-DIR
             if (this->root != 0) {
-                allInorder(this->root->left);
                 cout << "<";
+                allInorder(this->root->left);
                 cout << this->root->key;
                 // cout << "<";
                 allInorder(this->root->right);
@@ -86,8 +86,8 @@ class Tree {
         void allInorder(Node *r){ 
 		    // ESQ-RAIZ-DIR
             if (r != 0) {
-                allInorder(r->left);
                 cout << "<";
+                allInorder(r->left);
                 cout << r->key;
                 // cout << "<";
                 allInorder(r->right);
@@ -101,9 +101,9 @@ class Tree {
         void allPostorder(){ 
 		    // ESQ-DIR-RAIZ
             if (this->root != 0) {
+                cout << "<";
                 allPostorder(this->root->left);
                 allPostorder(this->root->right);
-                cout << "<";
                 cout << this->root->key;
                 // cout << "<";
                 cout << ">";
@@ -116,12 +116,10 @@ class Tree {
         void allPostorder(Node *r){ 
 		    // ESQ-DIR-RAIZ
             if (r != 0) {
+                cout << "<";
                 allPostorder(r->left);
                 allPostorder(r->right);
-                cout << "<";
                 cout << r->key;
-                cout << "<";
-                cout << ">";
                 cout << ">";
             }
 		}
