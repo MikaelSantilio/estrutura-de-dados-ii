@@ -38,83 +38,73 @@ class Tree {
             return this->root;
         }
 		
-		void allPreorder(){ 
-		    //RAIZ -ESQ-DIR
+        // RAIZ-ESQ-DIR
+		void allPreorder() { 
             if (this->root != 0) {
                 cout << "<";
                 cout << this->root->key;
-                // cout << "<";
                 allPreorder(this->root->left);
                 allPreorder(this->root->right);
                 cout << ">";
-                // cout << ">";
             } else {
                 cout << "<>";
             }
 		}
 
-        void allPreorder(Node *r){ 
-		    //RAIZ -ESQ-DIR
+		// RAIZ-ESQ-DIR
+        void allPreorder(Node *r) { 
             if (r != 0) {
                 cout << "<";
                 cout << r->key;
-                // cout << "<";
                 allPreorder(r->left);
                 allPreorder(r->right);
                 cout << ">";
-                // cout << ">";
             } else {
                 cout << "<>";
             }
 		}
 
-        void allInorder(){ 
-		    // ESQ-RAIZ-DIR
+        // ESQ-RAIZ-DIR
+        void allInorder() { 
             if (this->root != 0) {
                 cout << "<";
                 allInorder(this->root->left);
                 cout << this->root->key;
-                // cout << "<";
                 allInorder(this->root->right);
                 cout << ">";
-                // cout << ">";
             } else {
                 cout << "<>";
             }
 		}
 
-        void allInorder(Node *r){ 
-		    // ESQ-RAIZ-DIR
+        // ESQ-RAIZ-DIR
+        void allInorder(Node *r) { 
             if (r != 0) {
                 cout << "<";
                 allInorder(r->left);
                 cout << r->key;
-                // cout << "<";
                 allInorder(r->right);
                 cout << ">";
-                // cout << ">";
             } else {
                 cout << "<>";
             }
 		}
 
-        void allPostorder(){ 
-		    // ESQ-DIR-RAIZ
+        // ESQ-DIR-RAIZ
+        void allPostorder() { 
             if (this->root != 0) {
                 cout << "<";
                 allPostorder(this->root->left);
                 allPostorder(this->root->right);
                 cout << this->root->key;
-                // cout << "<";
                 cout << ">";
-                // cout << ">";
             }  else {
                 cout << "<>";
             }
 		}
 
-        void allPostorder(Node *r){ 
-		    // ESQ-DIR-RAIZ
+        // ESQ-DIR-RAIZ
+        void allPostorder(Node *r) { 
             if (r != 0) {
                 cout << "<";
                 allPostorder(r->left);
@@ -170,7 +160,7 @@ class Tree {
                 } else
                     q.push(temp->right); 
             } 
-        } 
+        }
 };
 
 int main(){
@@ -189,21 +179,21 @@ int main(){
     // tree->add(d);
     // tree->add(e);
     Node *root = tree->getRoot();
-    // root->left =b; 
-    // root->left->right = d; 
-    // root->right = c; 
-    // root->right->left = e; 
-    // root->right->right = f; 
+    root->left =b; 
+    root->left->right = d; 
+    root->right = c; 
+    root->right->left = e; 
+    root->right->right = f; 
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
-    tree->insert(b); 
-    tree->insert(c); 
-    tree->insert(g); 
-    tree->insert(d); 
-    tree->insert(e); 
-    tree->insert(f); 
-    tree->insert(h); 
+    // tree->insert(b); 
+    // tree->insert(c); 
+    // tree->insert(g); 
+    // tree->insert(d); 
+    // tree->insert(e); 
+    // tree->insert(f); 
+    // tree->insert(h); 
     tree->allPreorder();
     cout << "\n";
     tree->allInorder();
