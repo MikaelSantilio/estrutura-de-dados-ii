@@ -164,28 +164,28 @@ class Tree {
             } 
         }
 
-        Node * addNode(Node *n, Node *r) {
-            Node *tempHead = r;
-            // Node n = Node.newNode(data);
-            if(r == 0){
-                r = n;
-                return r;
+        Node * addNodeIterative(Node *node, Node *root) {
+            Node *temp = root;
+
+            if(root == 0){
+                root = node;
+                return root;
             }
             Node *prev = 0;
-            while(r != 0){
-                prev = r;
-                if(r->key < n->key){
-                    r = r->right;
+            while(root != 0){
+                prev = root;
+                if(root->key < node->key){
+                    root = root->right;
                 }else{
-                    r = r->left;
+                    root = root->left;
                 }
             }
-            if(prev->key < n->key){
-                prev->right = n;
+            if(prev->key < node->key){
+                prev->right = node;
             }else{
-                prev->left = n;
+                prev->left = node;
             }
-            return tempHead;
+            return temp;
         }
 
         Node * addNodeRecursive(Node *node, Node *root) {
@@ -230,8 +230,8 @@ int main(){
     // tree->insert(e); 
     // tree->insert(f); 
     // tree->insert(h); 
-    tree->addNodeRecursive(g, root);
-    // tree->addNode(g, root);
+    // tree->addNodeRecursive(g, root);
+    tree->addNodeIterative(g, root);
     tree->allPreorder();
     cout << "\n";
     tree->allInorder();
