@@ -111,6 +111,8 @@ class Tree {
                 allPostorder(r->right);
                 cout << r->key;
                 cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
@@ -127,15 +129,15 @@ class Tree {
             return root;
         }
 
-        Node * add(Node *n, Node *r) {
-            if (r == 0) return n;
-            if (n->key < r->key) {
-                r->left = add(n, r->left);
-            } else if (n->key > r->key) {
-                r->right = add(n, r->right);
+        Node * add(Node *node, Node *root) {
+            if (root == 0) return node;
+            if (node->key < root->key) {
+                root->left = add(node, root->left);
+            } else if (node->key > root->key) {
+                root->right = add(node, root->right);
             }
 
-            return r;
+            return root;
         }
         /*function to insert element in binary tree */
         void insert(Node* n) { 
@@ -160,6 +162,40 @@ class Tree {
                 } else
                     q.push(temp->right); 
             } 
+        }
+
+        Node * addNode(Node *n, Node *r) {
+            Node *tempHead = r;
+            // Node n = Node.newNode(data);
+            if(r == 0){
+                r = n;
+                return r;
+            }
+            Node *prev = 0;
+            while(r != 0){
+                prev = r;
+                if(r->key < n->key){
+                    r = r->right;
+                }else{
+                    r = r->left;
+                }
+            }
+            if(prev->key < n->key){
+                prev->right = n;
+            }else{
+                prev->left = n;
+            }
+            return tempHead;
+        }
+
+        Node * addNodeRecursive(Node *node, Node *root) {
+            if (root == 0) return node;
+            else if (node->key < root->key) {
+                root->left = addNodeRecursive(node, root->left);
+            } else {
+                root->right = addNodeRecursive(node, root->right);
+            }
+            return root;
         }
 };
 
@@ -194,12 +230,15 @@ int main(){
     // tree->insert(e); 
     // tree->insert(f); 
     // tree->insert(h); 
+    tree->addNodeRecursive(g, root);
+    // tree->addNode(g, root);
     tree->allPreorder();
     cout << "\n";
     tree->allInorder();
     cout << "\n";
     tree->allPostorder();
     cout << "\n";
+    cout << root->right->right->right->key;
 }
 
 // a(b(d())c(e()f()))
@@ -229,3 +268,5 @@ int main(){
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
+// <a<b<><d<><>>><c<e<><>><f<><>>>>
+// <a<b<><d<><>>><c<e<><>><f<><g<><>>>>>
