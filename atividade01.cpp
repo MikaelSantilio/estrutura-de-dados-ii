@@ -1,4 +1,5 @@
 #include <iostream>
+#include <bits/stdc++.h> 
 #include <queue>
 using namespace std;
 
@@ -116,6 +117,90 @@ class Tree {
             }
 		}
 
+        // RAIZ-ESQ-DIR
+        void preOrderStack() {
+            stack<Node*> stack;
+            Node *temp = root;
+            
+            if (temp != 0) {
+                stack.push(temp);
+                while (!stack.empty()) {
+                    temp = stack.top();
+                    cout << stack.top()->key << " ";
+                    stack.pop();
+                    if (temp->right != 0) {
+                        stack.push(temp->right);
+                    }
+                    if (temp->left != 0) {
+                        stack.push(temp->left);
+                    }
+                }
+            }
+        }
+
+        // ESQ-RAIZ-DIR
+        void inOrderStack() {
+            stack<Node*> stack;
+            Node *temp = root;
+
+            while (temp != 0 || stack.empty() == false) { 
+                /* Reach the left most Node of the 
+                temp Node */
+                while (temp !=  0) { 
+                    /* place pointer to a tree node on 
+                    the stack before traversing 
+                    the node's left subtree */
+                    stack.push(temp); 
+                    temp = temp->left; 
+                } 
+        
+                /* tempent must be NULL at this point */
+                temp = stack.top(); 
+                stack.pop(); 
+        
+                cout << temp->key << " "; 
+        
+                /* we have visited the node and its 
+                left subtree.  Now, it's right 
+                subtree's turn */
+                temp = temp->right; 
+            }
+        }
+
+        void postOrderStack() { 
+            stack<Node*> stack;
+            Node *temp = root;
+
+            while(1) {
+                if (temp != 0) {
+                    stack.push(temp);
+                    temp = temp->left;
+                } else {
+                    if (stack.empty())
+                        break;
+                    else {
+                        if (stack.top()->right == 0) {
+                            temp = stack.top();
+                            stack.pop();
+                            cout << temp->key << " ";
+                            while (temp == stack.top()->right) {
+                                cout << stack.top()->key << " ";
+                                temp = stack.top();
+                                stack.pop();
+                                if (stack.empty())
+                                    break;  
+                            }
+                        }
+                        if (!stack.empty()) 
+                            temp = stack.top()->right;
+                        else
+                            temp = 0;
+                    }
+                }
+            }
+
+        } 
+        
         Node * add(Node *n) {
             if (root == 0) return n;
             if (n->key < root->key) {
@@ -231,14 +316,20 @@ int main(){
     // tree->insert(f); 
     // tree->insert(h); 
     // tree->addNodeRecursive(g, root);
-    tree->addNodeIterative(g, root);
+    // tree->addNodeIterative(g, root);
     tree->allPreorder();
+    cout << "\n";
+    tree->preOrderStack();
+    cout << "\n";
+    tree->inOrderStack();
+    cout << "\n";
+    tree->postOrderStack();
     cout << "\n";
     tree->allInorder();
     cout << "\n";
     tree->allPostorder();
     cout << "\n";
-    cout << root->right->right->right->key;
+    // cout << root->right->right->right->key;
 }
 
 // a(b(d())c(e()f()))
@@ -265,6 +356,7 @@ int main(){
 
 
 // <a<<b<<d<>>>><c<<e<>><f<>>>>>>
+// <a<b<><d<><>>><c<e<><>><f<><>>>>
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
