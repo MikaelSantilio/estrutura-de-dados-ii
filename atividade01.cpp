@@ -144,58 +144,47 @@ class Tree {
             Node *temp = root;
 
             while (temp != 0 || stack.empty() == false) { 
-                /* Reach the left most Node of the 
-                temp Node */
+
                 while (temp !=  0) { 
-                    /* place pointer to a tree node on 
-                    the stack before traversing 
-                    the node's left subtree */
                     stack.push(temp); 
                     temp = temp->left; 
                 } 
         
-                /* tempent must be NULL at this point */
                 temp = stack.top(); 
                 stack.pop(); 
         
                 cout << temp->key << " "; 
         
-                /* we have visited the node and its 
-                left subtree.  Now, it's right 
-                subtree's turn */
                 temp = temp->right; 
             }
         }
 
+        // ESQ-DIR-RAIZ
         void postOrderStack() { 
             stack<Node*> stack;
             Node *temp = root;
 
-            while(1) {
+            while(temp != 0 || stack.empty() == false) {
                 if (temp != 0) {
                     stack.push(temp);
                     temp = temp->left;
                 } else {
-                    if (stack.empty())
-                        break;
-                    else {
-                        if (stack.top()->right == 0) {
+                    if (stack.top()->right == 0) {
+                        temp = stack.top();
+                        stack.pop();
+                        cout << temp->key << " ";
+                        while (temp == stack.top()->right) {
+                            cout << stack.top()->key << " ";
                             temp = stack.top();
                             stack.pop();
-                            cout << temp->key << " ";
-                            while (temp == stack.top()->right) {
-                                cout << stack.top()->key << " ";
-                                temp = stack.top();
-                                stack.pop();
-                                if (stack.empty())
-                                    break;  
-                            }
+                            if (stack.empty())
+                                break;  
                         }
-                        if (!stack.empty()) 
-                            temp = stack.top()->right;
-                        else
-                            temp = 0;
                     }
+                    if (!stack.empty()) 
+                        temp = stack.top()->right;
+                    else
+                        temp = 0;
                 }
             }
 
