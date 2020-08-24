@@ -42,78 +42,66 @@ class Tree {
         // RAIZ-ESQ-DIR
 		void allPreorder() { 
             if (this->root != 0) {
-                cout << "<";
-                cout << this->root->key;
+                // cout << "<";
+                cout << this->root->key << " ";
                 allPreorder(this->root->left);
                 allPreorder(this->root->right);
-                cout << ">";
-            } else {
-                cout << "<>";
+                // cout << ">";
             }
 		}
 
 		// RAIZ-ESQ-DIR
         void allPreorder(Node *r) { 
             if (r != 0) {
-                cout << "<";
-                cout << r->key;
+                // cout << "<";
+                cout << r->key << " ";
                 allPreorder(r->left);
                 allPreorder(r->right);
-                cout << ">";
-            } else {
-                cout << "<>";
+                // cout << ">";
             }
 		}
 
         // ESQ-RAIZ-DIR
         void allInorder() { 
             if (this->root != 0) {
-                cout << "<";
+                // cout << "<";
                 allInorder(this->root->left);
-                cout << this->root->key;
+                cout << this->root->key << " ";
                 allInorder(this->root->right);
-                cout << ">";
-            } else {
-                cout << "<>";
+                // cout << ">";
             }
 		}
 
         // ESQ-RAIZ-DIR
         void allInorder(Node *r) { 
             if (r != 0) {
-                cout << "<";
+                // cout << "<";
                 allInorder(r->left);
-                cout << r->key;
+                cout << r->key << " ";
                 allInorder(r->right);
-                cout << ">";
-            } else {
-                cout << "<>";
+                // cout << ">";
             }
 		}
 
         // ESQ-DIR-RAIZ
         void allPostorder() { 
             if (this->root != 0) {
-                cout << "<";
+                // cout << "<";
                 allPostorder(this->root->left);
                 allPostorder(this->root->right);
-                cout << this->root->key;
-                cout << ">";
-            }  else {
-                cout << "<>";
+                cout << this->root->key << " ";
+                // cout << ">";
             }
 		}
 
         // ESQ-DIR-RAIZ
         void allPostorder(Node *r) { 
             if (r != 0) {
-                cout << "<";
+                // cout << "<";
                 allPostorder(r->left);
                 allPostorder(r->right);
-                cout << r->key;
-                cout << ">";
-            } else {
-                cout << "<>";
+                cout << r->key << " ";
+                // cout << ">";
             }
 		}
 
@@ -213,30 +201,6 @@ class Tree {
 
             return root;
         }
-        /*function to insert element in binary tree */
-        void insert(Node* n) { 
-            queue<Node*> q; 
-            q.push(root); 
-        
-            // Do level order traversal until we find 
-            // an empty place.  
-            while (!q.empty()) { 
-                Node* temp = q.front(); 
-                q.pop(); 
-        
-                if (!temp->left) { 
-                    temp->left = n; 
-                    break; 
-                } else
-                    q.push(temp->left); 
-        
-                if (!temp->right) { 
-                    temp->right = n; 
-                    break; 
-                } else
-                    q.push(temp->right); 
-            } 
-        }
 
         Node * addNodeIterative(Node *node, Node *root) {
             Node *temp = root;
@@ -297,57 +261,23 @@ int main(){
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
-    // tree->insert(b); 
-    // tree->insert(c); 
-    // tree->insert(g); 
-    // tree->insert(d); 
-    // tree->insert(e); 
-    // tree->insert(f); 
-    // tree->insert(h); 
     // tree->addNodeRecursive(g, root);
     // tree->addNodeIterative(g, root);
+
+    cout << "Recursive\n";
     tree->allPreorder();
     cout << "\n";
+    tree->allInorder();
+    cout << "\n";
+    tree->allPostorder();
+    cout << "\n";
+
+    cout << "\nIterative\n";
     tree->preOrderStack();
     cout << "\n";
     tree->inOrderStack();
     cout << "\n";
     tree->postOrderStack();
     cout << "\n";
-    tree->allInorder();
-    cout << "\n";
-    tree->allPostorder();
-    cout << "\n";
-    // cout << root->right->right->right->key;
 }
-
-// a(b(d())c(e()f()))
-
-// (a(b()(d()()))(c(e()())(f()())))
-
-// b(d())a(e()c(f()))
-
-
-// <a
-//     <b
-//         <null-esq>
-//         <direito-d<esq><dir>
-//         > -- esse fecha o d
-//         > -- esse fecha o b
-//     <c
-//         <e<><>
-//         >
-//         <f<><>
-//         >
-
-//         > -- esse fecha o c
-//         > -- esse fecha o a
-
-
-// <a<<b<<d<>>>><c<<e<>><f<>>>>>>
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
-// <a<b<><d<><>>><c<e<><>><f<><>>>>
-// <a<b<><d<><>>><c<e<><>><f<><>>>>
-// <a<b<><d<><>>><c<e<><>><f<><>>>>
-// <a<b<><d<><>>><c<e<><>><f<><>>>>
-// <a<b<><d<><>>><c<e<><>><f<><g<><>>>>>
