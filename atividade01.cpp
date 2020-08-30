@@ -261,7 +261,7 @@ int main(){
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
-    // tree->addNodeRecursive(g, root);
+    tree->addNodeRecursive(g, root);
     // tree->addNodeIterative(g, root);
 
     cout << "Recursive\n";
@@ -272,12 +272,12 @@ int main(){
     tree->allPostorder();
     cout << "\n";
 
-    cout << "\nIterative\n";
-    tree->preOrderStack();
-    cout << "\n";
-    tree->inOrderStack();
-    cout << "\n";
-    tree->postOrderStack();
-    cout << "\n";
+    // cout << "\nIterative\n";
+    // tree->preOrderStack();
+    // cout << "\n";
+    // tree->inOrderStack();
+    // cout << "\n";
+    // tree->postOrderStack();
+    // cout << "\n";
 }
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
