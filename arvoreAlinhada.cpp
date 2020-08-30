@@ -35,195 +35,8 @@ class Tree {
         Node * getRoot() {
             return this->root;
         }
-		
-        // RAIZ-ESQ-DIR
-		void allPreorder() { 
-            if (this->root != 0) {
-                // cout << "<";
-                cout << this->root->key << " ";
-                allPreorder(this->root->left);
-                allPreorder(this->root->right);
-                // cout << ">";
-            }
-		}
 
-		// RAIZ-ESQ-DIR
-        void allPreorder(Node *r) { 
-            if (r != 0) {
-                // cout << "<";
-                cout << r->key << " ";
-                allPreorder(r->left);
-                allPreorder(r->right);
-                // cout << ">";
-            }
-		}
-
-        // ESQ-RAIZ-DIR
-        void allInorder() { 
-            if (this->root != 0) {
-                // cout << "<";
-                allInorder(this->root->left);
-                cout << this->root->key << " ";
-                allInorder(this->root->right);
-                // cout << ">";
-            }
-		}
-
-        // ESQ-RAIZ-DIR
-        void allInorder(Node *r) { 
-            if (r != 0) {
-                // cout << "<";
-                allInorder(r->left);
-                cout << r->key << " ";
-                allInorder(r->right);
-                // cout << ">";
-            }
-		}
-
-        // ESQ-DIR-RAIZ
-        void allPostorder() { 
-            if (this->root != 0) {
-                // cout << "<";
-                allPostorder(this->root->left);
-                allPostorder(this->root->right);
-                cout << this->root->key << " ";
-                // cout << ">";
-            }
-		}
-
-        // ESQ-DIR-RAIZ
-        void allPostorder(Node *r) { 
-            if (r != 0) {
-                // cout << "<";
-                allPostorder(r->left);
-                allPostorder(r->right);
-                cout << r->key << " ";
-                // cout << ">";
-            }
-		}
-
-        // RAIZ-ESQ-DIR
-        void preOrderStack() {
-            stack<Node*> stack;
-            Node *temp = root;
-            
-            if (temp != 0) {
-                stack.push(temp);
-                while (!stack.empty()) {
-                    temp = stack.top();
-                    cout << stack.top()->key << " ";
-                    stack.pop();
-                    if (temp->right != 0) {
-                        stack.push(temp->right);
-                    }
-                    if (temp->left != 0) {
-                        stack.push(temp->left);
-                    }
-                }
-            }
-        }
-
-        // ESQ-RAIZ-DIR
-        void inOrderStack() {
-            stack<Node*> stack;
-            Node *temp = root;
-
-            while (temp != 0 || stack.empty() == false) { 
-
-                while (temp !=  0) { 
-                    stack.push(temp); 
-                    temp = temp->left; 
-                } 
-        
-                temp = stack.top(); 
-                stack.pop(); 
-        
-                cout << temp->key << " "; 
-        
-                temp = temp->right; 
-            }
-        }
-
-        // ESQ-DIR-RAIZ
-        void postOrderStack() { 
-            stack<Node*> stack;
-            Node *temp = root;
-
-            while(temp != 0 || stack.empty() == false) {
-                if (temp != 0) {
-                    stack.push(temp);
-                    temp = temp->left;
-                } else {
-                    if (stack.top()->right == 0) {
-                        temp = stack.top();
-                        stack.pop();
-                        cout << temp->key << " ";
-                        while (temp == stack.top()->right) {
-                            cout << stack.top()->key << " ";
-                            temp = stack.top();
-                            stack.pop();
-                            if (stack.empty())
-                                break;  
-                        }
-                    }
-                    if (!stack.empty()) 
-                        temp = stack.top()->right;
-                    else
-                        temp = 0;
-                }
-            }
-
-        } 
-        
-        Node * add(Node *n) {
-            if (root == 0) return n;
-            if (n->key < root->key) {
-                // cout << n->key << " < " << root->key << "\n";
-                root->left = add(n, root->left);
-            } else if (n->key > root->key) {
-                // cout << n->key << " > " << root->key << "\n";
-                root->right = add(n, root->right);
-            }
-
-            return root;
-        }
-
-        Node * add(Node *node, Node *root) {
-            if (root == 0) return node;
-            if (node->key < root->key) {
-                root->left = add(node, root->left);
-            } else if (node->key > root->key) {
-                root->right = add(node, root->right);
-            }
-
-            return root;
-        }
-
-        Node * addNodeIterative(Node *node, Node *root) {
-            Node *temp = root;
-
-            if(root == 0){
-                root = node;
-                return root;
-            }
-            Node *prev = 0;
-            while(root != 0){
-                prev = root;
-                if(root->key < node->key){
-                    root = root->right;
-                }else{
-                    root = root->left;
-                }
-            }
-            if(prev->key < node->key){
-                prev->right = node;
-            }else{
-                prev->left = node;
-            }
-            return temp;
-        }
-
-        void addNodeAlign(Node *node, Node *root) {
+        void addNodeAlign(Node *node) {
             Node *temp = root;
             Node *prev, *p = 0;
 
@@ -283,36 +96,9 @@ class Tree {
                 }
             }
         }
-        
-        void MorrisInorder() {
-            Node *p = root, *tmp;
-            while (p != 0)
-            if (p->left == 0) {
-                cout << p->key << " "; 
-                p = p->right;
-            }
-            else {
-                tmp = p->left;
-                while (tmp->right != 0 && // go to the rightmost node
-                    tmp->right != p) // of the left subtree or
-                tmp = tmp->right; // to the temporary parent
-
-                if (tmp->right == 0) { // of p; if 'true'
-                    tmp->right = p; // rightmost node was
-                    p = p->left; // reached, make it a
-                } // temporary parent of the
-                else { // current root, else
-                    // a temporary parent has
-                    cout << p->key << " "; // been found; visit node p
-                    tmp->right = 0; // and then cut the right
-                    // pointer of the current
-                    p = p->right; // parent, whereby it
-                } // ceases to be a parent;
-            }
-        }
 
         // Utility function to find leftmost node in a tree rooted with n 
-        Node * leftMost(Node *n) { 
+        Node * leftMostNode(Node *n) { 
             if (n == 0) 
             return 0; 
 
@@ -320,22 +106,18 @@ class Tree {
                 n = n->left; 
 
             return n; 
-        } 
-
-        // C code to do inorder traversal in a threaded binary tree 
-        void inOrder(Node *root) 
+        }
+        void printInOrder(Node *root) 
         { 
-            Node *current = leftMost(root); 
+            Node *current = leftMostNode(root); 
             while (current != 0) 
             { 
                 cout << current->key << " "; 
 
-                // If this node is a thread node, then go to 
-                // inorder successor 
                 if (current->next) 
                     current = current->right; 
-                else // Else go to the leftmost child in right subtree 
-                    current = leftMost(current->right); 
+                else
+                    current = leftMostNode(current->right); 
             } 
         }
 
@@ -351,27 +133,9 @@ int main(){
 	Node *eleven= new Node(11);
 	Node *nine= new Node(9);
 	Node *thirteen= new Node(13);
-	// Node *b= new Node('b');
-	// Node *c= new Node('c');
-	// Node *a= new Node('a');
-	// Node *d= new Node('d');
-	// Node *e= new Node('e');
-	// Node *f= new Node('f');
-	// Node *g= new Node('g');
-	// Node *h= new Node('h');
-	// Tree *tree = new Tree(c);
-	// Tree *tree = new Tree(six);
 
-    // tree->add(a);
-    // tree->add(b);
-    // tree->add(d);
-    // tree->add(e);
+	// Tree *tree = new Tree(six);
     
-    // root->left =b; 
-    // root->left->right = d; 
-    // root->right = c; 
-    // root->right->left = e; 
-    // root->right->right = f; 
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
@@ -419,16 +183,16 @@ int main(){
     // tree->addNodeAlign(eleven, root);
     // tree->addNodeAlign(nine, root);
     // Node *fifty= new Node(50);
-    tree->addNodeAlign(fifty, root);
-	// Node *twenty_five= new Node(25, root);
-    tree->addNodeAlign(twenty_five, root);
-    tree->addNodeAlign(seven, root);
-	// Node *twenty= new Node(20, root);
-    tree->addNodeAlign(twenty, root);
-	// Node *seventy_five= new Node(75, root);
-    tree->addNodeAlign(seventy_five, root);
-	// Node *ninety_nine= new Node(99, root);
-    tree->addNodeAlign(ninety_nine, root);
+    tree->addNodeAlign(fifty);
+	// Node *twenty_five= new Node(25);
+    tree->addNodeAlign(twenty_five);
+    tree->addNodeAlign(seven);
+	// Node *twenty= new Node(20);
+    tree->addNodeAlign(twenty);
+	// Node *seventy_five= new Node(75);
+    tree->addNodeAlign(seventy_five);
+	// Node *ninety_nine= new Node(99);
+    tree->addNodeAlign(ninety_nine);
 
 
     // tree->addNodeAlign(thirteen, root);
