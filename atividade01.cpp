@@ -1,6 +1,9 @@
 #include <iostream>
 #include <bits/stdc++.h> 
 #include <queue>
+#include <unistd.h>
+#include <time.h>
+
 using namespace std;
 
 class Node {
@@ -264,13 +267,13 @@ int main(){
     tree->addNodeRecursive(g, root);
     // tree->addNodeIterative(g, root);
 
-    cout << "Recursive\n";
-    tree->allPreorder();
-    cout << "\n";
-    tree->allInorder();
-    cout << "\n";
-    tree->allPostorder();
-    cout << "\n";
+    // cout << "Recursive\n";
+    // tree->allPreorder();
+    // cout << "\n";
+    // tree->allInorder();
+    // cout << "\n";
+    // tree->allPostorder();
+    // cout << "\n";
 
     // cout << "\nIterative\n";
     // tree->preOrderStack();
@@ -279,5 +282,31 @@ int main(){
     // cout << "\n";
     // tree->postOrderStack();
     // cout << "\n";
+
+    cout << "Recursive\n";
+
+    clock_t start = clock();
+    tree->allInorder();
+    cout << "\n";
+    sleep(1);
+    clock_t end = clock();
+
+    double elapsed = double(end - start)/CLOCKS_PER_SEC;
+
+    printf("Time measured Recursive In Order: %.5f seconds.\n", 1.0*elapsed);
+
+    
+    
+   cout << "\nIterative\n";
+
+    clock_t start2 = clock();
+    tree->inOrderStack();
+    cout << "\n";
+    sleep(1);
+    clock_t end2 = clock();
+
+    double elapsed2 = double(end2 - start2)/CLOCKS_PER_SEC;
+
+    printf("Time measured Iterative In Order: %.5f seconds.\n", 1.0*elapsed2);
 }
 // <a<b<><d<><>>><c<e<><>><f<><>>>>

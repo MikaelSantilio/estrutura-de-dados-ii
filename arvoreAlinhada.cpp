@@ -1,11 +1,14 @@
 #include <iostream>
 #include <bits/stdc++.h> 
 #include <queue>
+#include <unistd.h>
+#include <time.h>
+
 using namespace std;
 
 class Node {
 	public:
-		int key;
+		char key;
 		Node *left,*right;
         int next;
 		Node(){
@@ -13,22 +16,22 @@ class Node {
             next=0;	
 		}
 		
-		Node(int e,Node *l=0,Node *r=0, int next=0){
+		Node(char e,Node *l=0,Node *r=0, int next=0){
 			key=e;
 			left=l;
 			right=r;
 		}
 };
 
-class Tree {
+class ThreadedTree {
 	protected:
 		Node *root;
 	public:
-		Tree(){
+		ThreadedTree(){
 			root = 0;			
 		}
 		
-		Tree(Node *r){
+		ThreadedTree(Node *r){
 			root = r;
 		}
 
@@ -36,7 +39,7 @@ class Tree {
             return this->root;
         }
 
-        void addNodeAlign(Node *node) {
+        void insert(Node *node) {
             Node *temp = root;
             Node *prev, *p = 0;
 
@@ -66,38 +69,6 @@ class Tree {
             } else prev->right=node;
         }
 
-        void insertThreadedNode(Node *node){
-            Node *current = root;
-            Node *parent = 0;
-            while(1 != 0) {
-                parent = current;
-                if(node->key < current->key) {
-                    current = current->left;
-                    if(current==0){
-                        parent->left = node;
-                        node->right = parent;
-                        node->next = 1;
-                        return;
-                    }
-                } else{
-                    if(current->next==0) {
-                        current = current->right;
-                        if(current==0) {
-                            parent->right = node;
-                            return;
-                        }
-                    }else {
-                        Node *temp = current->right;
-                        current->right = node;
-                        node->right = temp;
-                        node->next=1;
-                        return;
-                    }
-                }
-            }
-        }
-
-        // Utility function to find leftmost node in a tree rooted with n 
         Node * leftMostNode(Node *n) { 
             if (n == 0) 
             return 0; 
@@ -107,121 +78,63 @@ class Tree {
 
             return n; 
         }
-        void printInOrder(Node *root) 
-        { 
+        
+        void allInorder() { 
             Node *current = leftMostNode(root); 
-            while (current != 0) 
-            { 
+            while (current != 0) { 
                 cout << current->key << " "; 
 
                 if (current->next) 
                     current = current->right; 
                 else
                     current = leftMostNode(current->right); 
-            } 
+            }
+            cout << "\n";
         }
 
 };
 
-int main(){
-	Node *six= new Node(6);
-	Node *three= new Node(3);
-	Node *one= new Node(1);
-	Node *five= new Node(5);
-	Node *eight= new Node(8);
-	Node *seven= new Node(7);
-	Node *eleven= new Node(11);
-	Node *nine= new Node(9);
-	Node *thirteen= new Node(13);
+int main() {
+	Node *b= new Node('b');
+	Node *c= new Node('c');
+	Node *a= new Node('a');
+	Node *d= new Node('d');
+	Node *e= new Node('e');
+	Node *f= new Node('f');
+	Node *g= new Node('g');
 
-	// Tree *tree = new Tree(six);
-    
-    // cout << root->left->key;
-    // cout << root->right->key;
-    // tree->firstNodeKey();
-    // tree->addNodeAlign(c, root);
-    // tree->addNodeAlign(three, root);
-    // tree->addNodeAlign(one, root);
-    // tree->addNodeAlign(five, root);
-    // tree->addNodeAlign(eight, root);
-    // tree->addNodeAlign(seven, root);
-    // tree->addNodeAlign(eleven, root);
-    // tree->addNodeAlign(nine, root);
+	// Node *one_hundred= new Node(100);
+    // ThreadedTree *tree = new ThreadedTree(one_hundred);
+    ThreadedTree *tree = new ThreadedTree(a);
 
-    // tree->insertThreadedNode(three);
-    // tree->insertThreadedNode(one);
-    // tree->insertThreadedNode(five);
-    // tree->insertThreadedNode(eight);
-    // tree->insertThreadedNode(seven);
-    // tree->insertThreadedNode(eleven);
-    // tree->insertThreadedNode(nine);
-    // tree->insertThreadedNode(thirteen);
-	Node *one_hundred= new Node(100);
-    Tree *tree = new Tree(one_hundred);
-
-	Node *fifty= new Node(50);
-    // tree->insertThreadedNode(fifty);
-	Node *twenty_five= new Node(25);
-    // tree->insertThreadedNode(twenty_five);
-    // tree->insertThreadedNode(seven);
-	Node *twenty= new Node(20);
-    // tree->insertThreadedNode(twenty);
-	Node *seventy_five= new Node(75);
-    // tree->insertThreadedNode(seventy_five);
-	Node *ninety_nine= new Node(99);
-    // tree->insertThreadedNode(ninety_nine);
+	// Node *fifty= new Node(50);
+	// Node *twenty_five= new Node(25);
+	// Node *twenty= new Node(20);
+	// Node *seventy_five= new Node(75);
+	// Node *ninety_nine= new Node(99);
     Node *root = tree->getRoot();
 
+    // tree->insert(fifty);
+    // tree->insert(twenty_five);
+    // tree->insert(seven);
+    // tree->insert(twenty);
+    // tree->insert(seventy_five);
+    // tree->insert(ninety_nine);
+    tree->insert(d);
+    tree->insert(c);
+    tree->insert(b);
+    tree->insert(g);
+    tree->insert(e);
+    tree->insert(f);
 
-    // Original
-    // tree->addNodeAlign(c, root);
-    // tree->addNodeAlign(three, root);
-    // tree->addNodeAlign(one, root);
-    // tree->addNodeAlign(five, root);
-    // tree->addNodeAlign(eight, root);
-    // tree->addNodeAlign(seven, root);
-    // tree->addNodeAlign(eleven, root);
-    // tree->addNodeAlign(nine, root);
-    // Node *fifty= new Node(50);
-    tree->addNodeAlign(fifty);
-	// Node *twenty_five= new Node(25);
-    tree->addNodeAlign(twenty_five);
-    tree->addNodeAlign(seven);
-	// Node *twenty= new Node(20);
-    tree->addNodeAlign(twenty);
-	// Node *seventy_five= new Node(75);
-    tree->addNodeAlign(seventy_five);
-	// Node *ninety_nine= new Node(99);
-    tree->addNodeAlign(ninety_nine);
+    cout << "Threaded Tree In Order Travesal\n";
 
+    clock_t start = clock();
+    tree->allInorder();
+    sleep(1);
+    clock_t end = clock();
 
-    // tree->addNodeAlign(thirteen, root);
-    // tree->addNodeAlign(b, root);
-    // tree->addNodeAlign(e, root);
-    // tree->addNodeAlign(d, root);
-    // tree->addNodeAlign(f, root);
-    // tree->addNodeAlign(g, root);
-    // tree->addNodeIterative(g, root);
+    double elapsed = double(end - start)/CLOCKS_PER_SEC;
 
-    // cout << "Recursive\n";
-    // tree->allPreorder();
-    // cout << "\n";
-    // tree->allInorder();
-    // cout << "\n";
-    // tree->allPostorder();
-    // cout << "\n";
-
-    // cout << "\nIterative\n";
-    // tree->preOrderStack();
-    tree->inOrder(root);
-    // tree->MorrisInorder();
-    cout << "\n";
-    // cout << root->left->key;
-     cout << " ";
-    // cout << root->right->key;
-    // tree->inOrderStack();
-    // cout << "\n";
-    // tree->postOrderStack();
-    // cout << "\n";
+    printf("Time measured ThreadedTree In Order: %.5f seconds.\n", 1.0*elapsed);
 }
-// <a<b<><d<><>>><c<e<><>><f<><>>>>
