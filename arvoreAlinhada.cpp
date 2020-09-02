@@ -40,7 +40,6 @@ class ThreadedTree {
         }
 
         void insert(Node *node) {
-            Node *temp = root;
             Node *prev, *p = 0;
 
             if(root == 0){
@@ -69,6 +68,32 @@ class ThreadedTree {
             } else prev->right=node;
         }
 
+        void allPreorder() {
+            Node *current = root;
+
+            while(current!=0) {
+                cout << current->key << " ";
+
+                if(current->left!=0)
+                    current=current->left;
+
+                else if(current->next==1){
+                    while(current->next==1) {
+                        current=current->right;
+                    }
+                    current=current->right;
+                }
+
+                else {
+                    if(current->right == 0)
+                        break;
+                    else
+                        current=current->right;
+                }
+            }
+            cout << "\n";
+        }
+
         Node * leftMostNode(Node *n) { 
             if (n == 0) 
             return 0; 
@@ -95,24 +120,38 @@ class ThreadedTree {
 };
 
 int main() {
+	Node *a= new Node('a');
 	Node *b= new Node('b');
 	Node *c= new Node('c');
-	Node *a= new Node('a');
 	Node *d= new Node('d');
 	Node *e= new Node('e');
 	Node *f= new Node('f');
 	Node *g= new Node('g');
 
+    Node *o= new Node('o');
+	Node *k= new Node('k');
+	Node *j= new Node('j');
+	Node *l= new Node('l');
+	Node *q= new Node('q');
+	Node *p= new Node('p');
+	Node *r= new Node('r');
+    // Threaded Tree Pre Order Travesal
+    // d c b a e 
+    // ThreadedTree *tree = new ThreadedTree(d);
+    // Node *root = tree->getRoot();
+    // tree->insert(e);
+    // tree->insert(c);
+    // tree->insert(b);
+    // tree->insert(a);
+
 	// Node *one_hundred= new Node(100);
     // ThreadedTree *tree = new ThreadedTree(one_hundred);
-    ThreadedTree *tree = new ThreadedTree(a);
 
 	// Node *fifty= new Node(50);
 	// Node *twenty_five= new Node(25);
 	// Node *twenty= new Node(20);
 	// Node *seventy_five= new Node(75);
 	// Node *ninety_nine= new Node(99);
-    Node *root = tree->getRoot();
 
     // tree->insert(fifty);
     // tree->insert(twenty_five);
@@ -120,21 +159,29 @@ int main() {
     // tree->insert(twenty);
     // tree->insert(seventy_five);
     // tree->insert(ninety_nine);
-    tree->insert(d);
-    tree->insert(c);
-    tree->insert(b);
-    tree->insert(g);
-    tree->insert(e);
-    tree->insert(f);
+    // tree->insert(d);
 
-    cout << "Threaded Tree In Order Travesal\n";
+    // tree->insert(g);
+    // tree->insert(f);
+    // Node *root = tree->getRoot();
+    // cout << root->right->right->left->key << "\n";
+
+    ThreadedTree *tree = new ThreadedTree(o);
+    tree->insert(k);
+    tree->insert(q);
+    tree->insert(j);
+    tree->insert(l);
+    tree->insert(p);
+    tree->insert(r);
+
+    cout << "Threaded Tree Pre Order Traversal\n";
 
     clock_t start = clock();
-    tree->allInorder();
+    tree->allPreorder();
     sleep(1);
     clock_t end = clock();
 
     double elapsed = double(end - start)/CLOCKS_PER_SEC;
 
-    printf("Time measured ThreadedTree In Order: %.5f seconds.\n", 1.0*elapsed);
+    printf("Time measured ThreadedTree Pre Order: %.5f seconds.\n", 1.0*elapsed);
 }

@@ -205,7 +205,7 @@ class Tree {
             return root;
         }
 
-        Node * addNodeIterative(Node *node, Node *root) {
+        Node * addNodeIterative(Node *node) {
             Node *temp = root;
 
             if(root == 0){
@@ -229,6 +229,16 @@ class Tree {
             return temp;
         }
 
+        Node * addNodeRecursive(Node *node) {
+            if (root == 0) return node;
+            else if (node->key < root->key) {
+                root->left = addNodeRecursive(node, root->left);
+            } else {
+                root->right = addNodeRecursive(node, root->right);
+            }
+            return root;
+        }
+
         Node * addNodeRecursive(Node *node, Node *root) {
             if (root == 0) return node;
             else if (node->key < root->key) {
@@ -249,22 +259,34 @@ int main(){
 	Node *f= new Node('f');
 	Node *g= new Node('g');
 	Node *h= new Node('h');
-	Tree *tree = new Tree(a);
+	Node *o= new Node('o');
+	Node *k= new Node('k');
+	Node *j= new Node('j');
+	Node *l= new Node('l');
+	Node *q= new Node('q');
+	Node *p= new Node('p');
+	Node *r= new Node('r');
 
-    // tree->add(a);
-    // tree->add(b);
-    // tree->add(d);
-    // tree->add(e);
-    Node *root = tree->getRoot();
-    root->left =b; 
-    root->left->right = d; 
-    root->right = c; 
-    root->right->left = e; 
-    root->right->right = f; 
+	// Tree *tree = new Tree(a);
+    // Node *root = tree->getRoot();
+    // root->left =b; 
+    // root->left->right = d; 
+    // root->right = c; 
+    // root->right->left = e; 
+    // root->right->right = f; 
+
+    Tree *tree = new Tree(o);
+    // Node *root = tree->getRoot();
+    tree->addNodeRecursive(k);
+    tree->addNodeRecursive(q);
+    tree->addNodeRecursive(j);
+    tree->addNodeRecursive(l);
+    tree->addNodeRecursive(p);
+    tree->addNodeRecursive(r);
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
-    tree->addNodeRecursive(g, root);
+    // tree->addNodeRecursive(g, root);
     // tree->addNodeIterative(g, root);
 
     // cout << "Recursive\n";
@@ -286,7 +308,7 @@ int main(){
     cout << "Recursive\n";
 
     clock_t start = clock();
-    tree->allInorder();
+    tree->allPreorder();
     cout << "\n";
     sleep(1);
     clock_t end = clock();
@@ -300,7 +322,7 @@ int main(){
    cout << "\nIterative\n";
 
     clock_t start2 = clock();
-    tree->inOrderStack();
+    tree->preOrderStack();
     cout << "\n";
     sleep(1);
     clock_t end2 = clock();
