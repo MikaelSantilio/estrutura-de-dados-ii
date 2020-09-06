@@ -25,17 +25,21 @@ class Tree {
 	protected:
 		Node *root;
 	public:
-		Tree(){
+		Tree() {
 			root = 0;			
 		}
 		
-		Tree(Node *r){
+		Tree(Node *r) {
 			root = r;
 		}
 
         void firstNodeKey() {
             cout << root->key;
             cout << "\n============\n";
+        }
+
+        void visit(Node *node) {
+            cout << node->key << " ";
         }
 
         Node * getRoot() {
@@ -248,6 +252,30 @@ class Tree {
             }
             return root;
         }
+
+        void breadthFirst() {
+            queue<Node*> queue;
+            Node *temp = root;
+            if (temp != 0) {
+                queue.push(temp);
+
+                while (!queue.empty()) {
+                    temp = queue.front();
+                    visit(temp);
+                    queue.pop();
+
+                    if (temp->left != 0)
+                        queue.push(temp->left);
+                    if (temp->right != 0)
+                        queue.push(temp->right);
+                }
+            }
+            cout << "\n";
+        }
+
+        void deleteNode(Node *node) {
+            *node = 0;
+        }
 };
 
 int main(){
@@ -319,7 +347,7 @@ int main(){
 
     
     
-   cout << "\nIterative\n";
+    cout << "\nIterative\n";
 
     clock_t start2 = clock();
     tree->preOrderStack();
@@ -330,5 +358,9 @@ int main(){
     double elapsed2 = double(end2 - start2)/CLOCKS_PER_SEC;
 
     printf("Time measured Iterative In Order: %.5f seconds.\n", 1.0*elapsed2);
+
+    tree->breadthFirst();
+    tree->deleteNode(j);
+    tree->breadthFirst();
 }
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
