@@ -6,30 +6,32 @@
 
 using namespace std;
 
+template <class T>
 class Node {
 	public:
-		char key;
-		Node *left,*right;
-		Node(){
+		T key;
+		Node<T> *left,*right;
+		Node<T>(){
 			left=right=0;			
 		}
 		
-		Node(char e,Node *l=0,Node *r=0){
+		Node<T>(T e,Node<T> *l=0,Node<T> *r=0){
 			key=e;
 			left=l;
 			right=r;
 		}
 };
 
+template <class T>
 class Tree {
 	protected:
-		Node *root;
+		Node<T> *root;
 	public:
 		Tree() {
 			root = 0;			
 		}
 		
-		Tree(Node *r) {
+		Tree(Node<T> *r) {
 			root = r;
 		}
 
@@ -38,11 +40,11 @@ class Tree {
             cout << "\n============\n";
         }
 
-        void visit(Node *node) {
+        void visit(Node<T> *node) {
             cout << node->key << " ";
         }
 
-        Node * getRoot() {
+        Node<T> * getRoot() {
             return this->root;
         }
 		
@@ -58,7 +60,7 @@ class Tree {
 		}
 
 		// RAIZ-ESQ-DIR
-        void allPreorder(Node *r) { 
+        void allPreorder(Node<T> *r) { 
             if (r != 0) {
                 // cout << "<";
                 cout << r->key << " ";
@@ -80,7 +82,7 @@ class Tree {
 		}
 
         // ESQ-RAIZ-DIR
-        void allInorder(Node *r) { 
+        void allInorder(Node<T> *r) { 
             if (r != 0) {
                 // cout << "<";
                 allInorder(r->left);
@@ -102,7 +104,7 @@ class Tree {
 		}
 
         // ESQ-DIR-RAIZ
-        void allPostorder(Node *r) { 
+        void allPostorder(Node<T> *r) { 
             if (r != 0) {
                 // cout << "<";
                 allPostorder(r->left);
@@ -114,8 +116,8 @@ class Tree {
 
         // RAIZ-ESQ-DIR
         void preOrderStack() {
-            stack<Node*> stack;
-            Node *temp = root;
+            stack<Node<T>*> stack;
+            Node<T> *temp = root;
             
             if (temp != 0) {
                 stack.push(temp);
@@ -135,8 +137,8 @@ class Tree {
 
         // ESQ-RAIZ-DIR
         void inOrderStack() {
-            stack<Node*> stack;
-            Node *temp = root;
+            stack<Node<T>*> stack;
+            Node<T> *temp = root;
 
             while (temp != 0 || stack.empty() == false) { 
 
@@ -156,8 +158,8 @@ class Tree {
 
         // ESQ-DIR-RAIZ
         void postOrderStack() { 
-            stack<Node*> stack;
-            Node *temp = root;
+            stack<Node<T>*> stack;
+            Node<T> *temp = root;
 
             while(temp != 0 || stack.empty() == false) {
                 if (temp != 0) {
@@ -185,7 +187,7 @@ class Tree {
 
         } 
         
-        Node * add(Node *n) {
+        Node<T> * add(Node<T> *n) {
             if (root == 0) return n;
             if (n->key < root->key) {
                 // cout << n->key << " < " << root->key << "\n";
@@ -198,7 +200,7 @@ class Tree {
             return root;
         }
 
-        Node * add(Node *node, Node *root) {
+        Node<T> * add(Node<T> *node, Node<T> *root) {
             if (root == 0) return node;
             if (node->key < root->key) {
                 root->left = add(node, root->left);
@@ -209,14 +211,14 @@ class Tree {
             return root;
         }
 
-        Node * addNodeIterative(Node *node) {
-            Node *temp = root;
+        Node<T> * addNodeIterative(Node<T> *node) {
+            Node<T> *temp = root;
 
             if(root == 0){
                 root = node;
                 return root;
             }
-            Node *prev = 0;
+            Node<T> *prev = 0;
             while(root != 0){
                 prev = root;
                 if(root->key < node->key){
@@ -233,7 +235,7 @@ class Tree {
             return temp;
         }
 
-        Node * addNodeRecursive(Node *node) {
+        Node<T> * addNodeRecursive(Node<T> *node) {
             if (root == 0) return node;
             else if (node->key < root->key) {
                 root->left = addNodeRecursive(node, root->left);
@@ -243,7 +245,7 @@ class Tree {
             return root;
         }
 
-        Node * addNodeRecursive(Node *node, Node *root) {
+        Node<T> * addNodeRecursive(Node<T> *node, Node<T> *root) {
             if (root == 0) return node;
             else if (node->key < root->key) {
                 root->left = addNodeRecursive(node, root->left);
@@ -254,8 +256,8 @@ class Tree {
         }
 
         void breadthFirst() {
-            queue<Node*> queue;
-            Node *temp = root;
+            queue<Node<T>*> queue;
+            Node<T> *temp = root;
             if (temp != 0) {
                 queue.push(temp);
 
@@ -273,13 +275,13 @@ class Tree {
             cout << "\n";
         }
 
-        Node * deleteNode(Node *node) {
-            Node *temp = root;
+        Node<T> * deleteNode(Node<T> *node) {
+            Node<T> *temp = root;
 
             if(root == 0){
                 return 0;
             }
-            Node *prev = 0;
+            Node<T> *prev = 0;
             
             while(temp->key != node->key){
                 prev = temp;
@@ -300,21 +302,21 @@ class Tree {
 };
 
 int main(){
-	Node *b= new Node('b');
-	Node *c= new Node('c');
-	Node *a= new Node('a');
-	Node *d= new Node('d');
-	Node *e= new Node('e');
-	Node *f= new Node('f');
-	Node *g= new Node('g');
-	Node *h= new Node('h');
-	Node *o= new Node('o');
-	Node *k= new Node('k');
-	Node *j= new Node('j');
-	Node *l= new Node('l');
-	Node *q= new Node('q');
-	Node *p= new Node('p');
-	Node *r= new Node('r');
+	Node<char> *b= new Node<char>('b');
+	Node<char> *c= new Node<char>('c');
+	Node<char> *a= new Node<char>('a');
+	Node<char> *d= new Node<char>('d');
+	Node<char> *e= new Node<char>('e');
+	Node<char> *f= new Node<char>('f');
+	Node<char> *g= new Node<char>('g');
+	Node<char> *h= new Node<char>('h');
+	Node<char> *o= new Node<char>('o');
+	Node<char> *k= new Node<char>('k');
+	Node<char> *j= new Node<char>('j');
+	Node<char> *l= new Node<char>('l');
+	Node<char> *q= new Node<char>('q');
+	Node<char> *p= new Node<char>('p');
+	Node<char> *r= new Node<char>('r');
 
 	// Tree *tree = new Tree(a);
     // root->left =b; 
@@ -323,8 +325,8 @@ int main(){
     // root->right->left = e; 
     // root->right->right = f; 
 
-    Tree *tree = new Tree(o);
-    Node *root = tree->getRoot();
+    Tree<char> *tree = new Tree<char>(o);
+    Node<char> *root = tree->getRoot();
     // Node *root = tree->getRoot();
     tree->addNodeRecursive(k);
     tree->addNodeRecursive(q);
