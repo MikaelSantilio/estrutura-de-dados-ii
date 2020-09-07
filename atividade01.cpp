@@ -273,8 +273,29 @@ class Tree {
             cout << "\n";
         }
 
-        void deleteNode(Node *node) {
-            *node = 0;
+        Node * deleteNode(Node *node) {
+            Node *temp = root;
+
+            if(root == 0){
+                return 0;
+            }
+            Node *prev = 0;
+            
+            while(temp->key != node->key){
+                prev = temp;
+
+                if(temp->key < node->key) {
+                    temp = temp->right;
+                }else {
+                    temp = temp->left;
+                }
+            }
+            if(prev->key < node->key){
+                prev->right = 0;
+            }else {
+                prev->left = 0;
+            }
+            return temp;
         }
 };
 
@@ -296,7 +317,6 @@ int main(){
 	Node *r= new Node('r');
 
 	// Tree *tree = new Tree(a);
-    // Node *root = tree->getRoot();
     // root->left =b; 
     // root->left->right = d; 
     // root->right = c; 
@@ -304,6 +324,7 @@ int main(){
     // root->right->right = f; 
 
     Tree *tree = new Tree(o);
+    Node *root = tree->getRoot();
     // Node *root = tree->getRoot();
     tree->addNodeRecursive(k);
     tree->addNodeRecursive(q);
@@ -332,6 +353,7 @@ int main(){
     // cout << "\n";
     // tree->postOrderStack();
     // cout << "\n";
+    // root->left = 0;
 
     cout << "Recursive\n";
 
@@ -359,8 +381,11 @@ int main(){
 
     printf("Time measured Iterative In Order: %.5f seconds.\n", 1.0*elapsed2);
 
+    // tree->breadthFirst();
+    // tree->breadthFirst();
+    tree->deleteNode(root->left);
+    // delete root->left;
     tree->breadthFirst();
-    tree->deleteNode(j);
-    tree->breadthFirst();
+    // cout << root->left->key;
 }
 // <a<b<><d<><>>><c<e<><>><f<><>>>>
