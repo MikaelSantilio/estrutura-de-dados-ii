@@ -304,212 +304,170 @@ class Tree {
             if (root == 0)
                 return 0;
 
-            return 1 + max(height(root->left), height(root->right));
-        }
+            list<Node<T>*> list;
+            list.push_back(root);
 
-        int height(Node<T> *node) {
-            if (node == 0)
-                return 0;
+            Node<T> *front = 0;
+            int height = 0;
 
-            return 1 + max(height(node->left), height(node->right));
+            while (!list.empty()) {
+                int size = list.size();
+
+                while (size--) {
+                front = list.front();
+                list.pop_front();
+
+                if (front->left)
+                        list.push_back(front->left);
+
+                if (front->right)
+                        list.push_back(front->right);
+                }
+
+                height++;
+            }
+
+            return height;
         }
 
         void deleteByMerging(Node<T> *node) {
             Node<T> *temp = node;
             if (node != 0) {
-                if (!node->right) // node has no right child: its left
-                    node = node->left; // child (if any) is attached to its
-            // parent;
-                else if (node->left == 0) // node has no left child: its right
-                    node = node->right; // child is attached to its parent;
-                else { // be ready for merging subtrees;
-                    // cout << node->key;
-                    temp = node->left; // 1. move left
-                    while (temp->right != 0)// 2. and then right as far as
-                    // possible;
+                if (!node->right)
+                    node = node->left; 
+
+                else if (node->left == 0)
+                    node = node->right;
+                else {
+                    
+                    temp = node->left;
+                    while (temp->right != 0)
+                    
                         temp = temp->right;
-                    temp->right = // 3. establish the link between
-                        node->right; // the rightmost node of the left
-                    // subtree and the right subtree;
-                    temp = node; // 4.
-                    node = node->left; // 5.
+                    temp->right = node->right;
+                    temp = node;
+                    node = node->left;
                 }
                 visit(temp);
                 cout << "\n";
-                // delete temp; // 6.
+                delete temp;
             }
         }
 
-    // Node<T> * findNode(T key)
+        Node<T> * findParent(Node<T> *node) {
+            Node<T> *curr_node;
+            Node<T> *prev_node;
+            Node<T> *parent;
 
-        /* =======================================================
-        remove(x): delete node containg search value x
-        ======================================================= */
-    Node<T> * findParent(Node<T> *node) {
-       Node<T> *curr_node;   // Help variable
-       Node<T> *prev_node;   // Help variable
-       Node<T> *myParent;   // Help variable
+            curr_node = root;
+            prev_node = root;
 
-       /* --------------------------------------------
-	  Find the node with search value == "x" in the BST
-          -------------------------------------------- */
-       curr_node = root;  // Always start at the root node
-       prev_node = root;  // Remember the previous node for insertion
+            while ( curr_node != 0 ) {
+                if (node->key == curr_node->key) {
+                    parent = prev_node;
+                    return parent;
 
-       while ( curr_node != 0 )
-       {
-          if (node->key == curr_node->key )
-	  {
-	     // Found search value in BST 
-            myParent = prev_node;
-            //  node_parent_array->push(curr_node);
-            return myParent;        // Set myParent
-	    //  return node_parent_array;
-	  }
-          else if (node->key < curr_node->key  )
-	  {
-	     prev_node = curr_node;       // Remember prev. node
-	     curr_node = curr_node->left;  // Continue search in left subtree
-	  }
-          else //  This must be true: ( x > curr_node.value )
-	  {
-	     prev_node = curr_node;       // Remember prev. node
-	     curr_node = curr_node->right; // Continue search in right subtree
-	  }
-       }
+                }
+                else if (node->key < curr_node->key) {
+                    prev_node = curr_node;
+                    curr_node = curr_node->left;
+                }
+                else {
+                    prev_node = curr_node;
+                    curr_node = curr_node->right;
+                }
+            }
 
-       /* ======================================
-	  When we reach here, x is NOT in BST
-          ====================================== */
-       myParent = prev_node;
-    //    node_parent_array->push(0);
-    //    node_parent_array->push(myParent);
-                  // Set myParent
-    //    return node_parent_array; // Return not found
-       return myParent;
-   }
+            parent = prev_node;
+            return parent;
+        }
 
-   void remove(Node<T> *node) {
-       Node<T> *p;        // Help variable
-       Node<T> *parent;   // parent node
-       Node<T> *succ;
+        void removeAndMerge(Node<T>* node) {
+            Node<T>* p;
+            Node<T>* parent;
+            Node<T>* succ;
 
-       p = node;
-       parent = findParent(node);
+            p = node;
+            parent = findParent(node);
 
-       if ( p == 0 )
-          return;
+            if (p == 0)
+                return;
 
-        // Case 1: p has no children
-       if ( p->left == 0 && p->right == 0 ) {
-          if ( p == root ) {
-              // Special case...
-             root = 0;
-             return;
-          }
+            // Case 1: p has no children
+            if (p->left == 0 && p->right == 0) {
+                if (p == root) {
+                    // Special case...
+                    root = 0;
+                    return;
+                }
+                if (parent->left == p)
+                    parent->left = 0;
+                else
+                    parent->right = 0;
 
-          /* --------------------------------
-             Delete p from p's parent
-             -------------------------------- */
-          if ( parent->left == p )
-             parent->left = 0;
-          else
-             parent->right = 0;
+                return;
+            }
 
-          return;
-       }
+            // Case 2: p has 1 child node
+            if (p->right == 0) {
+                if (p == root) {
+                    // Special case
+                    root = root->left;
+                    return;
+                }
+                if (parent->left == p)
+                    parent->left = p->left;
+                else
+                    parent->right = p->left;
 
-       /* -----------------------------------------------------------
-          If program reach here, we know that:
+                return;
+            }
 
-              at least ONE of p.left or p.right is NOT null
+            if (p->left == 0) {
+                if (p == root) {
+                    // Special case
+                    root = root->right;
+                    return;
+                }
 
-          I.e.: p has at least 1 child node
-	  ------------------------------------------------------------ */
-       /* ===========================================================
-          Handle case 2: p has 1 child node
-	  =========================================================== */
+                if (parent->left == p)
+                    parent->left = p->right;
+                else
+                    parent->right = p->right;
 
-       if ( p->right == 0 ) // If true: p.left ≠ 0, p has left child
-       {
-          if ( p == root )   // Special case
-          {
-             root = root->left;
-             return;
-          }
+                return;
+            }
 
-          /* ----------------------------------------------
-             Link p's left child as p's parent child
-             ---------------------------------------------- */
-          if ( parent->left == p )
-             parent->left = p->left;
-          else
-             parent->right = p->left;
+            // Case 3: node has 2 children - find successor of p
+            if (p->right->left == 0) {
 
-          return;
-       }
-	          
-       if ( p->left == 0 ) // If true: p.right ≠ 0, p has right child 
-       {
-          if ( p == root )   // Special case
-          {
-             root = root->right;
-             return;
-          }
+                p->key = p->right->key;
+                p->right = p->right->right;
 
-        //   parent = myParent;     // myParent was set by findNode(x)....
+                return;
+            }
 
+            succ = p->right;
+            Node<T>* succParent = p;
 
-          /* ----------------------------------------------
-             Link p's right child as p's parent child
-             ---------------------------------------------- */
-          if ( parent->left == p )
-             parent->left = p->right;
-          else
-             parent->right = p->right;
+            while (succ->left != 0) {
+                succParent = succ;
+                succ = succ->left;
+            }
 
-          return;
-       }
+            p->key = succ->key;
+            succParent->left = succ->right;
+        }
+        void readHeightDeleteAndMerge(Node<T>* node) {
 
-       /* ================================================================
-          Handle case 3: node has 2 children - find successor of p
+            T key = node->key;
 
-          succ(p) is as as follows:  1 step right, all the way left
-
-          Note: succ(p) has NOT left child !
-          ================================================================ */
-
-       if ( p->right->left == 0 )
-       {
-          /* ======================================================
-             Special case: the right node of p IS the successor !
-             Replace p with p.right
-             ====================================================== */
-          p->key = p->right->key;         // Replace p value
-          p->right = p->right->right;         // Replace p right subtree
-
-          return;                       // Done
-       }
-
-       succ = p->right;                  // Go RIGHT once
-       Node<T> *succParent = p;             // We must also know succ's parent !
-
-       /* ----------------------------------
-          Find the successor node of node p
-	  and successor's parent node
-          --------------------------------- */
-       while ( succ->left != 0 )
-       {
-           succParent = succ;           // Track succ's parent
-           succ = succ->left;
-       }
-
-       /* ------------------------------
-          Now we can delete p !
-	  ------------------------------ */
-       p->key = succ->key;           // Replace p with successor info.
-       succParent->left = succ->right;   // Link right tree to parent's left
-   }
+            cout << "Height before remove node " << key;
+            cout  << ':' << height() << '\n'; 
+            removeAndMerge(node);
+            cout << "Height after remove node " << key;
+            cout  << ':' << height() << '\n';
+        }
 };
 
 int main(){
@@ -579,11 +537,8 @@ int main(){
     double elapsed = double(end - start)/CLOCKS_PER_SEC;
 
     printf("Time measured Recursive In Order: %.5f seconds.\n", 1.0*elapsed);
-
-    
     
     cout << "\nIterative\n";
-
     clock_t start2 = clock();
     tree->preOrderStack();
     cout << "\n";
@@ -594,20 +549,40 @@ int main(){
 
     printf("Time measured Iterative In Order: %.5f seconds.\n", 1.0*elapsed2);
 
-    // tree->breadthFirst();
-    // tree->breadthFirst();
-    // tree->deleteNode(root->left);
-    // tree->deleteByMerging(root->left);
-    cout << tree->height() << '\n';
-    tree->remove(k);
-    tree->remove(p);
-    tree->remove(j);
-    tree->remove(l);
-    cout << tree->height() << '\n';
-    // tree->remove(0);
-    // delete root->left;
-    tree->breadthFirst();
+    printf("\nRemove node:\n");
+    tree->readHeightDeleteAndMerge(k);
+
+    printf("\nIterative Pre Order:\n");
     tree->preOrderStack();
-    // cout << root->left->key;
+
+
+    // QUESTION .06
+
+    Node<int> *fifteen= new Node<int>(15);
+    Node<int> *ten= new Node<int>(10);
+    Node<int> *thirty= new Node<int>(30);
+    Node<int> *five= new Node<int>(5);
+    Node<int> *four= new Node<int>(4);
+    Node<int> *seven= new Node<int>(7);
+    Node<int> *twenty= new Node<int>(20);
+    Node<int> *forty= new Node<int>(40);
+
+    Tree<int> *treeInt = new Tree<int>(fifteen);
+    treeInt->addNodeRecursive(ten);
+    treeInt->addNodeRecursive(thirty);
+    treeInt->addNodeRecursive(five);
+    treeInt->addNodeRecursive(four);
+    treeInt->addNodeRecursive(seven);
+    treeInt->addNodeRecursive(twenty);
+    treeInt->addNodeRecursive(forty);
+
+    printf("\nIterative Pre Order treeInt:\n");
+    treeInt->preOrderStack();
+
+    printf("\nRemove node 15:\n");
+    treeInt->readHeightDeleteAndMerge(fifteen);
+
+    printf("\nIterative Pre Order treeInt:\n");
+    treeInt->preOrderStack();
+
 }
-// <a<b<><d<><>>><c<e<><>><f<><>>>>
