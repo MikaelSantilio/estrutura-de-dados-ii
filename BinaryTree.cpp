@@ -382,7 +382,84 @@ class Tree {
             return parent;
         }
 
-        void removeAndMerge(Node<T>* node) {
+        void removeAndMergeLeft(Node<T>* node) {
+            Node<T>* p;
+            Node<T>* parent;
+            Node<T>* succ;
+
+            p = node;
+            parent = findParent(node);
+
+            if (p == 0)
+                return;
+
+            // Case 1: p has no children
+            if (p->left == 0 && p->right == 0) {
+                if (p == root) {
+                    // Special case...
+                    root = 0;
+                    return;
+                }
+                if (parent->left == p)
+                    parent->left = 0;
+                else
+                    parent->right = 0;
+
+                return;
+            }
+
+            // Case 2: p has 1 child node
+            if (p->right == 0) {
+                if (p == root) {
+                    // Special case
+                    root = root->left;
+                    return;
+                }
+                if (parent->left == p)
+                    parent->left = p->left;
+                else
+                    parent->right = p->left;
+
+                return;
+            }
+
+            if (p->left == 0) {
+                if (p == root) {
+                    // Special case
+                    root = root->right;
+                    return;
+                }
+
+                if (parent->left == p)
+                    parent->left = p->right;
+                else
+                    parent->right = p->right;
+
+                return;
+            }
+
+            // Case 3: node has 2 children - find successor of p
+            if (p->left->right == 0) {
+
+                p->key = p->left->key;
+                p->left = p->left->left;
+
+                return;
+            }
+
+            succ = p->left;
+            Node<T>* succParent = p;
+
+            while (succ->right != 0) {
+                succParent = succ;
+                succ = succ->right;
+            }
+
+            p->key = succ->key;
+            succParent->right = succ->left;
+        }
+
+        void removeAndMergeRight(Node<T>* node) {
             Node<T>* p;
             Node<T>* parent;
             Node<T>* succ;
@@ -458,15 +535,16 @@ class Tree {
             p->key = succ->key;
             succParent->left = succ->right;
         }
+
         void readHeightDeleteAndMerge(Node<T>* node) {
 
             T key = node->key;
 
             cout << "Height before remove node " << key;
-            cout  << ':' << height() << '\n'; 
-            removeAndMerge(node);
+            cout  << ": " << height() << '\n'; 
+            removeAndMergeLeft(node);
             cout << "Height after remove node " << key;
-            cout  << ':' << height() << '\n';
+            cout  << ": " << height() << '\n';
         }
 };
 
@@ -549,15 +627,18 @@ int main(){
 
     printf("Time measured Iterative In Order: %.5f seconds.\n", 1.0*elapsed2);
 
+    cout << "\n=========================== QUESTION 05 ===========================\n";
+    printf("Before Iterative Pre Order:\n");
+    tree->preOrderStack();
+
     printf("\nRemove node:\n");
     tree->readHeightDeleteAndMerge(k);
 
-    printf("\nIterative Pre Order:\n");
+    printf("After Iterative Pre Order:\n");
     tree->preOrderStack();
 
 
-    // QUESTION .06
-
+    cout << "\n=========================== QUESTION 06 ===========================";
     Node<int> *fifteen= new Node<int>(15);
     Node<int> *ten= new Node<int>(10);
     Node<int> *thirty= new Node<int>(30);
