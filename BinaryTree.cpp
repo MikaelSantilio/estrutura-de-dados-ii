@@ -546,6 +546,29 @@ class Tree {
             cout << "Height after remove node " << key;
             cout  << ": " << height() << '\n';
         }
+
+        void MorrisTraversal(){
+            Node<T> *p = root, *tmp;
+            while (p != 0)
+                if (p->left == 0) {
+                    visit(p);
+                    p = p->right;
+                }
+                else {
+                    tmp = p->left;
+                    while (tmp->right != 0 && tmp->right != p)
+                        tmp = tmp->right;
+                    if (tmp->right == 0) {
+                        tmp->right = p;
+                        p = p->left;
+                    }
+                    else {
+                        visit(p);
+                        tmp->right = 0;
+                        p = p->right;
+                    }
+                }
+        }
 };
 
 int main(){
@@ -587,13 +610,13 @@ int main(){
     // tree->addNodeRecursive(g, root);
     // tree->addNodeIterative(g, root);
 
-    // cout << "Recursive\n";
-    // tree->allPreorder();
-    // cout << "\n";
-    // tree->allInorder();
-    // cout << "\n";
-    // tree->allPostorder();
-    // cout << "\n";
+    cout << "Recursive\n";
+    tree->allPreorder();
+    cout << "\n";
+    tree->allInorder();
+    cout << "\n";
+    tree->allPostorder();
+    cout << "\n";
 
     // cout << "\nIterative\n";
     // tree->preOrderStack();

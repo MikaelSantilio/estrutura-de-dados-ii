@@ -6,41 +6,43 @@
 
 using namespace std;
 
+template <class T>
 class Node {
 	public:
-		char key;
-		Node *left,*right;
+		T key;
+		Node<T> *left,*right;
         int next;
-		Node(){
+		Node<T>(){
 			left=right=0;
             next=0;	
 		}
 		
-		Node(char e,Node *l=0,Node *r=0, int next=0){
+		Node<T>(T e,Node<T> *l=0,Node<T> *r=0, int next=0){
 			key=e;
 			left=l;
 			right=r;
 		}
 };
 
+template <class T>
 class ThreadedTree {
 	protected:
-		Node *root;
+		Node<T> *root;
 	public:
 		ThreadedTree(){
 			root = 0;			
 		}
 		
-		ThreadedTree(Node *r){
+		ThreadedTree(Node<T> *r){
 			root = r;
 		}
 
-        Node * getRoot() {
+        Node<T> * getRoot() {
             return this->root;
         }
 
-        void insert(Node *node) {
-            Node *prev, *p = 0;
+        void insert(Node<T> *node) {
+            Node<T> *prev, *p = 0;
 
             if(root == 0){
                 root = node;
@@ -68,16 +70,17 @@ class ThreadedTree {
             } else prev->right=node;
         }
 
-        void allPreorder() {
-            Node *current = root;
+        void preOrder() {
+            Node<T> *current = root;
 
             while(current!=0) {
-                cout << current->key << " ";
+                // cout << current->key << " ";
 
                 if(current->left!=0)
                     current=current->left;
 
                 else if(current->next==1){
+                    cout << current->key << " ";
                     while(current->next==1) {
                         current=current->right;
                     }
@@ -87,14 +90,74 @@ class ThreadedTree {
                 else {
                     if(current->right == 0)
                         break;
-                    else
+                    else {
+                        cout << current->key << " ";
                         current=current->right;
+                    }
                 }
+                
             }
             cout << "\n";
         }
 
-        Node * leftMostNode(Node *n) { 
+        void postOrder2() {
+            Node<T> *prev, *p=root;
+            if (p!=0) {
+                while (p->left != 0)
+                    p = p->left;
+
+                while (p != 0) {
+                    
+                    
+                    prev = p;
+                    p = p->right;
+                    if (p != 0)
+                        cout << p->key << " ";
+                    if (p != 0 && prev->next == 0)
+                        while (p->left != 0)
+                            p = p->left;
+
+                    // if (p != 0)
+                        // cout << p->key << " ";
+                }
+                
+            }
+        }
+
+        void postOrder() {
+            Node<T> *current = root;
+            Node<T> *parent = 0;
+
+            while(current!=0) {
+                if(current->left!=0)
+                    current=current->left;
+
+                else if(current->next==1){
+                    cout << current->key << " ";
+                    if (parent) {
+                        cout << parent->key << " ";
+                        parent = 0;   
+                    }
+                    while(current->next==1) {
+                        current=current->right;
+                    }
+                    parent = current;
+                    current=current->right;
+                }
+
+                else {
+                    cout << parent->key << " ";
+                    if(current->right == 0)
+                        break;
+                    else
+                        current=current->right;
+                }
+
+            }
+            cout << "\n";
+        }
+
+        Node<T> * leftMostNode(Node<T> *n) { 
             if (n == 0) 
             return 0; 
 
@@ -103,9 +166,8 @@ class ThreadedTree {
 
             return n; 
         }
-        
-        void allInorder() { 
-            Node *current = leftMostNode(root); 
+        void inOrder() { 
+            Node<T> *current = leftMostNode(root); 
             while (current != 0) { 
                 cout << current->key << " "; 
 
@@ -116,25 +178,50 @@ class ThreadedTree {
             }
             cout << "\n";
         }
+        // Recursive
+        // preOrder: o k j l q p r 
+        // inOrder: j k l o p q r 
+        // postOrder: j l k p r q o 
+        
+        // void postOrder() { 
+        //     Node<T> *current = leftMostNode(root);
+        //     Node<T> *prev, *next = 0;
+
+        //     while (current != 0) {
+        //         if (current->next == 1) {
+        //             cout << current->key << " "; 
+        //             // parent = current;
+        //             next = current->right
+        //             current = current->right;
+        //         }
+        //         else {
+        //             prev = current;
+        //             current = current->right;
+        //             next = current->right; 
+        //             cout << current->key << " "; 
+        //         }
+        //     }
+        //     cout << "\n";
+        // }
 
 };
 
 int main() {
-	Node *a= new Node('a');
-	Node *b= new Node('b');
-	Node *c= new Node('c');
-	Node *d= new Node('d');
-	Node *e= new Node('e');
-	Node *f= new Node('f');
-	Node *g= new Node('g');
+	Node<char> *a= new Node<char>('a');
+	Node<char> *b= new Node<char>('b');
+	Node<char> *c= new Node<char>('c');
+	Node<char> *d= new Node<char>('d');
+	Node<char> *e= new Node<char>('e');
+	Node<char> *f= new Node<char>('f');
+	Node<char> *g= new Node<char>('g');
 
-    Node *o= new Node('o');
-	Node *k= new Node('k');
-	Node *j= new Node('j');
-	Node *l= new Node('l');
-	Node *q= new Node('q');
-	Node *p= new Node('p');
-	Node *r= new Node('r');
+    Node<char> *o= new Node<char>('o');
+	Node<char> *k= new Node<char>('k');
+	Node<char> *j= new Node<char>('j');
+	Node<char> *l= new Node<char>('l');
+	Node<char> *q= new Node<char>('q');
+	Node<char> *p= new Node<char>('p');
+	Node<char> *r= new Node<char>('r');
     // Threaded Tree Pre Order Travesal
     // d c b a e 
     // ThreadedTree *tree = new ThreadedTree(d);
@@ -166,7 +253,7 @@ int main() {
     // Node *root = tree->getRoot();
     // cout << root->right->right->left->key << "\n";
 
-    ThreadedTree *tree = new ThreadedTree(o);
+    ThreadedTree<char> *tree = new ThreadedTree<char>(o);
     tree->insert(k);
     tree->insert(q);
     tree->insert(j);
@@ -174,14 +261,16 @@ int main() {
     tree->insert(p);
     tree->insert(r);
 
-    cout << "Threaded Tree Pre Order Traversal\n";
+    cout << "Threaded Tree Pre and In Order Traversal\n";
 
     clock_t start = clock();
-    tree->allPreorder();
+    tree->preOrder();
+    tree->inOrder();
+    tree->postOrder();
     sleep(1);
     clock_t end = clock();
 
     double elapsed = double(end - start)/CLOCKS_PER_SEC;
 
-    printf("Time measured ThreadedTree Pre Order: %.5f seconds.\n", 1.0*elapsed);
+    printf("Time measured ThreadedTree Pre and In Order: %.5f seconds.\n", 1.0*elapsed);
 }
