@@ -354,6 +354,27 @@ class Tree {
             }
         }
 
+        void deleteByCopying(Node<T> *node) {
+            Node<T> *previous, *tmp = node;
+            if (node->right == 0) // node has no right child;
+                node = node->left;
+            else if (node->left == 0) // node has no left child;
+                node = node->right;
+            else {
+                tmp = node->left; // node has both children;
+                previous = node; // 1.
+                while (tmp->right != 0) { // 2.
+                    previous = tmp;
+                    tmp = tmp->right;
+                }
+                node->key = tmp->key; // 3.
+                if (previous == node)
+                    previous ->left = tmp->left;
+                else previous ->right = tmp->left; // 4.
+            }
+            delete tmp; // 5.
+        }
+
         Node<T> * findParent(Node<T> *node) {
             Node<T> *curr_node;
             Node<T> *prev_node;
@@ -596,7 +617,13 @@ int main(){
     // root->right->right = f; 
 
     Tree<char> *tree = new Tree<char>(o);
+    // Tree<char> *tree = new Tree<char>(a);
     Node<char> *root = tree->getRoot();
+    // root->left = b;
+    // root->right = c;
+    // root->left->right = d;
+    // root->right->left = e;
+    // root->right->right = f;
     // Node *root = tree->getRoot();
     tree->addNodeRecursive(k);
     tree->addNodeRecursive(q);
@@ -618,75 +645,8 @@ int main(){
     tree->allPostorder();
     cout << "\n";
 
-    // cout << "\nIterative\n";
-    // tree->preOrderStack();
-    // cout << "\n";
-    // tree->inOrderStack();
-    // cout << "\n";
-    // tree->postOrderStack();
-    // cout << "\n";
-    // root->left = 0;
-
-    cout << "Recursive\n";
-
-    clock_t start = clock();
+    tree->deleteByCopying(k);
+    // tree->removeAndMergeRight(k);
+    // tree->deleteByMerging(k);
     tree->allPreorder();
-    cout << "\n";
-    sleep(1);
-    clock_t end = clock();
-
-    double elapsed = double(end - start)/CLOCKS_PER_SEC;
-
-    printf("Time measured Recursive In Order: %.5f seconds.\n", 1.0*elapsed);
-    
-    cout << "\nIterative\n";
-    clock_t start2 = clock();
-    tree->preOrderStack();
-    cout << "\n";
-    sleep(1);
-    clock_t end2 = clock();
-
-    double elapsed2 = double(end2 - start2)/CLOCKS_PER_SEC;
-
-    printf("Time measured Iterative In Order: %.5f seconds.\n", 1.0*elapsed2);
-
-    cout << "\n=========================== QUESTION 05 ===========================\n";
-    printf("Before Iterative Pre Order:\n");
-    tree->preOrderStack();
-
-    printf("\nRemove node:\n");
-    tree->readHeightDeleteAndMerge(k);
-
-    printf("After Iterative Pre Order:\n");
-    tree->preOrderStack();
-
-
-    cout << "\n=========================== QUESTION 06 ===========================";
-    Node<int> *fifteen= new Node<int>(15);
-    Node<int> *ten= new Node<int>(10);
-    Node<int> *thirty= new Node<int>(30);
-    Node<int> *five= new Node<int>(5);
-    Node<int> *four= new Node<int>(4);
-    Node<int> *seven= new Node<int>(7);
-    Node<int> *twenty= new Node<int>(20);
-    Node<int> *forty= new Node<int>(40);
-
-    Tree<int> *treeInt = new Tree<int>(fifteen);
-    treeInt->addNodeRecursive(ten);
-    treeInt->addNodeRecursive(thirty);
-    treeInt->addNodeRecursive(five);
-    treeInt->addNodeRecursive(four);
-    treeInt->addNodeRecursive(seven);
-    treeInt->addNodeRecursive(twenty);
-    treeInt->addNodeRecursive(forty);
-
-    printf("\nIterative Pre Order treeInt:\n");
-    treeInt->preOrderStack();
-
-    printf("\nRemove node 15:\n");
-    treeInt->readHeightDeleteAndMerge(fifteen);
-
-    printf("\nIterative Pre Order treeInt:\n");
-    treeInt->preOrderStack();
-
 }
