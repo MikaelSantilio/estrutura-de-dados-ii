@@ -51,22 +51,24 @@ class Tree {
         // RAIZ-ESQ-DIR
 		void allPreorder() { 
             if (this->root != 0) {
-                // cout << "<";
-                cout << this->root->key << " ";
+                cout << "<";
+                cout << this->root->key << "";
                 allPreorder(this->root->left);
                 allPreorder(this->root->right);
-                // cout << ">";
+                cout << ">";
             }
 		}
 
 		// RAIZ-ESQ-DIR
         void allPreorder(Node<T> *r) { 
             if (r != 0) {
-                // cout << "<";
-                cout << r->key << " ";
+                cout << "<";
+                cout << r->key << "";
                 allPreorder(r->left);
                 allPreorder(r->right);
-                // cout << ">";
+                cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
@@ -78,6 +80,8 @@ class Tree {
                 cout << this->root->key << " ";
                 allInorder(this->root->right);
                 // cout << ">";
+            } else {
+                cout << "<>";
             }
 		}
 
@@ -609,6 +613,16 @@ int main(){
 	Node<char> *p= new Node<char>('p');
 	Node<char> *r= new Node<char>('r');
 
+	Node<int> *thirteen= new Node<int>(13);
+	Node<int> *ten= new Node<int>(10);
+	Node<int> *two= new Node<int>(2);
+	Node<int> *eleven= new Node<int>(11);
+	Node<int> *twenty_five= new Node<int>(25);
+	Node<int> *twenty= new Node<int>(20);
+	Node<int> *eighteen= new Node<int>(18);
+	Node<int> *twenty_four= new Node<int>(24);
+	Node<int> *twenty_six= new Node<int>(26);
+
 	// Tree *tree = new Tree(a);
     // root->left =b; 
     // root->left->right = d; 
@@ -617,20 +631,29 @@ int main(){
     // root->right->right = f; 
 
     Tree<char> *tree = new Tree<char>(o);
+    Tree<int> *tree2 = new Tree<int>(thirteen);
     // Tree<char> *tree = new Tree<char>(a);
-    Node<char> *root = tree->getRoot();
+    Node<int> *root = tree2->getRoot();
     // root->left = b;
     // root->right = c;
     // root->left->right = d;
     // root->right->left = e;
     // root->right->right = f;
     // Node *root = tree->getRoot();
-    tree->addNodeRecursive(k);
-    tree->addNodeRecursive(q);
-    tree->addNodeRecursive(j);
-    tree->addNodeRecursive(l);
-    tree->addNodeRecursive(p);
-    tree->addNodeRecursive(r);
+    // tree->addNodeRecursive(k);
+    // tree->addNodeRecursive(q);
+    // tree->addNodeRecursive(j);
+    // tree->addNodeRecursive(l);
+    // tree->addNodeRecursive(p);
+    // tree->addNodeRecursive(r);
+    tree2->addNodeRecursive(ten);
+    tree2->addNodeRecursive(two);
+    tree2->addNodeRecursive(eleven);
+    tree2->addNodeRecursive(twenty_five);
+    tree2->addNodeRecursive(twenty);
+    tree2->addNodeRecursive(twenty_six);
+    tree2->addNodeRecursive(eighteen);
+    tree2->addNodeRecursive(twenty_four);
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
@@ -638,15 +661,20 @@ int main(){
     // tree->addNodeIterative(g, root);
 
     cout << "Recursive\n";
-    tree->allPreorder();
+    tree2->allPreorder();
     cout << "\n";
-    tree->allInorder();
-    cout << "\n";
-    tree->allPostorder();
-    cout << "\n";
+    // tree->allInorder();
+    // cout << "\n";
+    // tree->allPostorder();
+    // cout << "\n";
+    // <24
+    // <20
+    // <18<><>>
+    // <>>
+    // <26<><>>>>
 
-    tree->deleteByCopying(k);
-    // tree->removeAndMergeRight(k);
-    // tree->deleteByMerging(k);
-    tree->allPreorder();
+    // tree2->deleteNode(twenty_five);
+    // tree2->removeAndMergeRight(twenty_five);
+    tree2->deleteByCopying(twenty_five);
+    tree2->allPreorder();
 }
