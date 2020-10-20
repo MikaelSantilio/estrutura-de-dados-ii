@@ -561,6 +561,93 @@ class Tree {
             succParent->left = succ->right;
         }
 
+        void removeAndMerge(Node<T>* node) {
+            Node<T>* p;
+            Node<T>* parent;
+            Node<T>* succ;
+
+            p = node;
+            parent = findParent(node);
+
+            if (p == 0)
+                return;
+
+            // Case 1: p has no children
+            if (p->left == 0 && p->right == 0) {
+                if (p == root) {
+                    // Special case...
+                    root = 0;
+                    return;
+                }
+                if (parent->left == p)
+                    parent->left = 0;
+                else
+                    parent->right = 0;
+
+                return;
+            }
+
+            // Case 2: p has 1 child node
+            if (p->right == 0) {
+                if (p == root) {
+                    // Special case
+                    root = root->left;
+                    return;
+                }
+                if (parent->left == p)
+                    parent->left = p->left;
+                else
+                    parent->right = p->left;
+
+                return;
+            }
+
+            if (p->left == 0) {
+                if (p == root) {
+                    // Special case
+                    root = root->right;
+                    return;
+                }
+
+                if (parent->left == p)
+                    parent->left = p->right;
+                else
+                    parent->right = p->right;
+
+                return;
+            }
+
+            // Case 3: node has 2 children - find successor of p
+            // if (p->right->left == 0) {
+
+            //     p->key = p->right->key;
+            //     p->right = p->right->right;
+
+            //     return;
+            // }
+
+            succ = p->right;
+            Node<T> *succParent = p;
+
+            // delete p;
+            succParent = succParent->left;
+            if (root == p) {
+                root = succParent;
+            } else {
+                p->key = succParent->key;
+                p->right = succParent->right;
+                p->left = succParent->left;
+            }
+
+            while (succParent->right != 0) {
+                succParent = succParent->right;
+            }
+
+            succParent->right = succ;
+
+            // succParent->left = succ->right;
+        }
+
         void readHeightDeleteAndMerge(Node<T>* node) {
 
             T key = node->key;
@@ -623,6 +710,14 @@ int main(){
 	Node<int> *twenty_four= new Node<int>(24);
 	Node<int> *twenty_six= new Node<int>(26);
 
+	Node<int> *five= new Node<int>(5);
+	Node<int> *four= new Node<int>(4);
+	Node<int> *six= new Node<int>(6);
+	Node<int> *fifteen= new Node<int>(15);
+	Node<int> *thirty= new Node<int>(30);
+
+
+
 	// Tree *tree = new Tree(a);
     // root->left =b; 
     // root->left->right = d; 
@@ -632,6 +727,7 @@ int main(){
 
     Tree<char> *tree = new Tree<char>(o);
     Tree<int> *tree2 = new Tree<int>(thirteen);
+    // Tree<int> *tree2 = new Tree<int>(ten);
     // Tree<char> *tree = new Tree<char>(a);
     Node<int> *root = tree2->getRoot();
     // root->left = b;
@@ -646,6 +742,7 @@ int main(){
     // tree->addNodeRecursive(l);
     // tree->addNodeRecursive(p);
     // tree->addNodeRecursive(r);
+
     tree2->addNodeRecursive(ten);
     tree2->addNodeRecursive(two);
     tree2->addNodeRecursive(eleven);
@@ -654,11 +751,21 @@ int main(){
     tree2->addNodeRecursive(twenty_six);
     tree2->addNodeRecursive(eighteen);
     tree2->addNodeRecursive(twenty_four);
+
     // cout << root->left->key;
     // cout << root->right->key;
     // tree->firstNodeKey();
     // tree->addNodeRecursive(g, root);
     // tree->addNodeIterative(g, root);
+
+    // tree2->addNodeRecursive(ten);
+
+    // tree2->addNodeRecursive(five);
+    // tree2->addNodeRecursive(four);
+    // tree2->addNodeRecursive(six);
+    // tree2->addNodeRecursive(twenty);
+    // tree2->addNodeRecursive(fifteen);
+    // tree2->addNodeRecursive(thirty);
 
     cout << "Recursive\n";
     tree2->allPreorder();
@@ -672,9 +779,13 @@ int main(){
     // <18<><>>
     // <>>
     // <26<><>>>>
+    // tree2->removeAndMergeRight(ten);
+    // tree2->removeAndMerge(five);
+
+    //ATIVIDADE 9
 
     // tree2->deleteNode(twenty_five);
-    // tree2->removeAndMergeRight(twenty_five);
-    tree2->deleteByCopying(twenty_five);
+    tree2->removeAndMerge(twenty_five);
+    // tree2->deleteByCopying(twenty_five);
     tree2->allPreorder();
 }
